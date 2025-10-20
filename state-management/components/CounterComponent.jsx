@@ -1,26 +1,33 @@
 import {Text,View,StyleSheet, StatusBar,Button,TextInput} from 'react-native'
 import React, { useContext, useState } from 'react';
 import { CounterContext, useCounter } from '@/context/CounterProvider';
+import { useDispatch, useSelector } from 'react-redux';
+import { counterAction } from '@/store/feature/counter-slice';
 
 const CounterComponent=()=>{
+    const dispatch=useDispatch()
     const [value,setValue]=useState("")
-    const counterConsumer=useCounter()
+    const count=useSelector((state)=>state.counter.count)
     const IncrementHandler=()=>{
-        counterConsumer.increment()
+        // counterConsumer.increment()
+        dispatch(counterAction.increment())
     }
     const DecrementHandler=()=>{
-        counterConsumer.decrement()
+        // counterConsumer.decrement()
+         dispatch(counterAction.decrement())
     }
     const incrementByValue=()=>{
         if(value && !isNaN(Number(value))){
-            counterConsumer.increment(Number(value))
+            // counterConsumer.increment(Number(value))
+             dispatch(counterAction.increment(Number(value)))
             setValue("")
         }
         return
     }
     const decrementByValue=()=>{
         if(value && !isNaN(Number(value))){
-            counterConsumer.decrement(Number(value))
+            // count.decrement(Number(value))
+             dispatch(counterAction.decrement(Number(value)))
             setValue("")
         }
         return
@@ -31,7 +38,7 @@ const CounterComponent=()=>{
                 Counter Context
             </Text>
             <Text>
-                {counterConsumer.counter}
+                {count.counter}
             </Text>
             <View style={styles.buttons}>
             <Button onPress={IncrementHandler} title='Increment'/>
